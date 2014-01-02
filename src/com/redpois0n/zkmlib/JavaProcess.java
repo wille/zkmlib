@@ -33,6 +33,10 @@ public class JavaProcess {
 					
 					while ((line = reader.readLine()) != null) {
 						System.out.println(line);
+						
+						for (UpdateListener listener : listeners) {
+							listener.onInput(line);
+						}
 					}
 					
 					reader.close();
@@ -40,7 +44,7 @@ public class JavaProcess {
 					ex.printStackTrace();
 				}
 			}
-		});
+		}).start();
 	}
 	
 	public void addListener(UpdateListener listener) {
