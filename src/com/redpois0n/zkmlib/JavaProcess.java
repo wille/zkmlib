@@ -2,6 +2,7 @@ package com.redpois0n.zkmlib;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 public class JavaProcess {
 	
 	private List<UpdateListener> listeners = new ArrayList<UpdateListener>();
+	private Process process;
 	
 	public JavaProcess(File file) throws Exception {
 		this(new String[] { file.getAbsolutePath() } );
@@ -23,51 +25,10 @@ public class JavaProcess {
 	}
 	
 	public JavaProcess(final Process p) throws Exception {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-					
-					String line;
-					
-					while ((line = reader.readLine()) != null) {
-						System.out.println(line);
-						
-						for (UpdateListener listener : listeners) {
-							listener.onInput(line);
-						}
-					}
-					
-					reader.close();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		}).start();
+		this.process = p;
 		
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					BufferedReader reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-					
-					String line;
-					
-					while ((line = reader.readLine()) != null) {
-						System.out.println(line);
-						
-						for (UpdateListener listener : listeners) {
-							listener.onInput(line);
-						}
-					}
-					
-					reader.close();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		}).start();
+		new Thread(new Reader(p.getInputStream())).start();
+		new Thread(new Reader(p.getErrorStream())).start();
 	}
 	
 	public void addListener(UpdateListener listener) {
@@ -76,6 +37,46 @@ public class JavaProcess {
 	
 	public void removeListener(UpdateListener listener) {
 		listeners.remove(listener);
+	}
+	
+	public void waitFor() {
+		try {
+			process.waitFor();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	class Reader implements Runnable {
+		
+		private InputStream input;
+		
+		public Reader(InputStream input) {
+			this.input = input;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+				
+				String line;
+				
+				while ((line = reader.readLine()) != null) {
+					if (Main.printOutput) {
+						System.out.println(line);
+					}
+					
+					for (UpdateListener listener : listeners) {
+						listener.onInput(line);
+					}
+				}
+				
+				reader.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 
 }

@@ -10,6 +10,8 @@ public class Main {
 	
 	private static File zkmJar;
 	
+	public static boolean printOutput;
+	
 	static {
 		if (System.getProperty("os.name").toLowerCase().contains("win")) {
 			JAVA_HOME = System.getProperty("java.home") + "\\bin\\javaw.exe";
@@ -42,6 +44,8 @@ public class Main {
 		} else {
 			output = new File(input.getParentFile(), "obf_" + input.getName());
 		}
+		
+		printOutput = argsContains("-debug", args);
 		
 		Obfuscator obf = new Obfuscator(input, output, JarUtils.getMainClass(new JarFile(input)));
 		

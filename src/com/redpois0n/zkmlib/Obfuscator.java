@@ -27,10 +27,16 @@ public class Obfuscator {
 		
 		JavaProcess jp = new JavaProcess(Runtime.getRuntime().exec(new String[] { Main.JAVA_HOME, "-jar", Main.getZKMJar().getAbsolutePath(), scriptFile.getAbsolutePath() }));
 		
+		jp.addListener(new UpdateListener() {
+			@Override
+			public void onInput(String s) {
+				
+			}			
+		});
 	
-	
-	
-	
+		jp.waitFor();
+		
+		scriptFile.delete();
 	
 	}
 }
