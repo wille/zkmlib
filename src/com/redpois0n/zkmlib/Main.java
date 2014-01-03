@@ -8,7 +8,7 @@ public class Main {
 	
 	public static final String JAVA_HOME;
 	
-	private static File zkmJar;
+	public static File zkmJar;
 	
 	public static boolean printOutput;
 	
