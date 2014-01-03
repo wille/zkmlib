@@ -45,6 +45,29 @@ public class JavaProcess {
 				}
 			}
 		}).start();
+		
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					BufferedReader reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+					
+					String line;
+					
+					while ((line = reader.readLine()) != null) {
+						System.out.println(line);
+						
+						for (UpdateListener listener : listeners) {
+							listener.onInput(line);
+						}
+					}
+					
+					reader.close();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}).start();
 	}
 	
 	public void addListener(UpdateListener listener) {

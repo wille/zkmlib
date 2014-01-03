@@ -32,6 +32,5 @@ public class Obfuscator {
 	
 	
 	
-		scriptFile.delete();
 	}
 }
