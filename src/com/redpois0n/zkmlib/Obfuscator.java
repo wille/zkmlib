@@ -29,6 +29,10 @@ public class Obfuscator {
 		fos.write(script.getBytes("UTF-8"));
 		fos.close();
 
+		if (output.exists()) {
+			output.delete();
+		}
+		
 		JavaProcess jp = new JavaProcess(Runtime.getRuntime().exec(new String[] { Main.JAVA_HOME, "-jar", Main.getZKMJar().getAbsolutePath(), scriptFile.getAbsolutePath() }));
 
 		for (UpdateListener listener : listeners) {
