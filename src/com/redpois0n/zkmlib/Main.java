@@ -34,7 +34,7 @@ public class Main {
 		} else {
 			throw new FileNotFoundException("No -input specified");
 		}
-		
+				
 		File output;
 		
 		if (argsContains("-output", args)) {

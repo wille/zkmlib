@@ -38,7 +38,7 @@ public class ScriptGenerator {
 			pw.print("\t");
 		}
 		
-		pw.println();
+		pw.println(";");
 		
 		/**
 		 * Write input file
