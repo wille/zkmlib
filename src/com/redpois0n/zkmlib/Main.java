@@ -1,6 +1,8 @@
 package com.redpois0n.zkmlib;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.jar.JarFile;
 
 public class Main {
 	
@@ -20,10 +22,30 @@ public class Main {
 	 * Main entry point
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		if (argsContains("-zkmjar", args)) {
 			zkmJar = new File(getArg("-zkmjar", args));
 		}
+		
+		File input;
+		
+		if (argsContains("-input", args)) {
+			input = new File(getArg("-input", args));
+		} else {
+			throw new FileNotFoundException("No -input specified");
+		}
+		
+		File output;
+		
+		if (argsContains("-output", args)) {
+			output = new File(getArg("-output", args));
+		} else {
+			output = new File(input.getParentFile(), "obf_" + input.getName());
+		}
+		
+		Obfuscator obf = new Obfuscator(input, output, JarUtils.getMainClass(new JarFile(input)));
+		
+		obf.obfuscate();
 	}
 	
 	public static String getArg(String arg, String[] args) {
