@@ -7,14 +7,10 @@ import java.io.StringWriter;
 public class ScriptGenerator {
 	
 	private File[] classpath;
-	private File input;
-	private File output;
-	private String mainClass;
+	private Configuration config;
 	
-	public ScriptGenerator(File input, File output, String mainClass) {
-		this.input = input;
-		this.output = output;
-		this.mainClass = mainClass;
+	public ScriptGenerator(Configuration config) {
+		this.config = config;
 	}
 	
 	public String generate() throws Exception {
@@ -43,13 +39,13 @@ public class ScriptGenerator {
 		/**
 		 * Write input file
 		 */
-		pw.println("open\t\"" + input.getAbsolutePath() + "\";");
+		pw.println("open\t\"" + config.getInput().getAbsolutePath() + "\";");
 		pw.println();
 		
 		/**
 		 * trimExclude main class
 		 */
-		pw.println("trimExclude\t" + mainClass + "^ public static main(java.lang.String[]);");
+		pw.println("trimExclude\t" + config.getMainClass() + "^ public static main(java.lang.String[]);");
 		pw.println();
 		
 		
@@ -58,11 +54,13 @@ public class ScriptGenerator {
 		 */
 		pw.println("obfuscate\tchangeLogFileIn=\"\"");
 		pw.println("\tchangeLogFileOut=\"\"");
-		pw.println("\tobfuscateFlow=aggressive");
-		pw.println("\texceptionObfuscation=heavy");
-		pw.println("\tencryptStringLiterals=flowObfuscate");
+		pw.println("\tobfuscateFlow=" + config.getObfuscateFlow().toString());
+		pw.println("\texceptionObfuscation=" + config.getExceptionObfuscation().toString());
+		pw.println("\tencryptStringLiterals=" + config.getEncryptStringLiterals().toString());
 		pw.println("\trandomize=true");
-		pw.println("\tcollapsePackagesWithDefault=\"defaultpackage\"");
+		if (config.isCollapsePackages()) {
+			pw.println("\tcollapsePackagesWithDefault=\"" + config.getPackageName() + "\"");
+		}
 		pw.println("\tlocalVariables=delete");
 		pw.println("\tlineNumbers=delete");
 		pw.println("\tautoReflectionHandling=normal;");
@@ -72,7 +70,7 @@ public class ScriptGenerator {
 		/**
 		 * saveAll
 		 */
-		pw.println("saveAll\tarchiveCompression=all \"" + output.getAbsolutePath() + "\";");
+		pw.println("saveAll\tarchiveCompression=all \"" + config.getOutput().getAbsolutePath() + "\";");
 		
 		pw.close();
 		
@@ -87,28 +85,5 @@ public class ScriptGenerator {
 		this.classpath = classpath;
 	}
 
-	public File getInput() {
-		return input;
-	}
-
-	public void setInput(File input) {
-		this.input = input;
-	}
-
-	public String getMainClass() {
-		return mainClass;
-	}
-
-	public void setMainClass(String mainClass) {
-		this.mainClass = mainClass;
-	}
-
-	public File getOutput() {
-		return output;
-	}
-
-	public void setOutput(File output) {
-		this.output = output;
-	}
 
 }
