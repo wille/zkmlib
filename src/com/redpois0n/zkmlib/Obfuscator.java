@@ -7,20 +7,16 @@ import java.util.List;
 
 public class Obfuscator {
 
-	private File input;
-	private File output;
-	private String mainClass;
+	private Configuration config;
 	private List<UpdateListener> listeners = new ArrayList<UpdateListener>();
 
 
-	public Obfuscator(File input, File output, String mainClass) {
-		this.input = input;
-		this.output = output;
-		this.mainClass = mainClass;
+	public Obfuscator(Configuration config) {
+		this.config = config;
 	}
 
 	public void obfuscate() throws Exception {
-		ScriptGenerator sg = new ScriptGenerator(input, output, mainClass);
+		ScriptGenerator sg = new ScriptGenerator(config);
 
 		String script = sg.generate();
 
@@ -29,8 +25,8 @@ public class Obfuscator {
 		fos.write(script.getBytes("UTF-8"));
 		fos.close();
 
-		if (output.exists()) {
-			output.delete();
+		if (config.getOutput().exists()) {
+			config.getOutput().delete();
 		}
 		
 		JavaProcess jp = new JavaProcess(Runtime.getRuntime().exec(new String[] { Main.JAVA_HOME, "-jar", Main.getZKMJar().getAbsolutePath(), scriptFile.getAbsolutePath() }));
