@@ -13,6 +13,11 @@ public class ScriptGenerator {
 		this.config = config;
 	}
 	
+	/**
+	 * Generates the script file as string
+	 * @return
+	 * @throws Exception
+	 */
 	public String generate() throws Exception {
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);

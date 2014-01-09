@@ -14,7 +14,11 @@ public class Obfuscator {
 	public Obfuscator(Configuration config) {
 		this.config = config;
 	}
-
+	
+	/**
+	 * Writes the script file to disk, executes ZKM
+	 * @throws Exception
+	 */
 	public void obfuscate() throws Exception {
 		ScriptGenerator sg = new ScriptGenerator(config);
 

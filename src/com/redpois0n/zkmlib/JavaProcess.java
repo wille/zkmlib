@@ -24,6 +24,11 @@ public class JavaProcess {
 		this(Runtime.getRuntime().exec(s));
 	}
 	
+	/**
+	 * Execute process with readers for input and error stream
+	 * @param p
+	 * @throws Exception
+	 */
 	public JavaProcess(final Process p) throws Exception {
 		this.process = p;
 		

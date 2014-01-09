@@ -7,6 +7,11 @@ import javax.swing.JOptionPane;
 
 public class JarUtils {
 
+	/**
+	 * Gets main class from jar manifest
+	 * @param jar
+	 * @return
+	 */
 	public static String getMainClass(JarFile jar) {
 		try {			
 			Map<Object, Object> map = jar.getManifest().getMainAttributes();

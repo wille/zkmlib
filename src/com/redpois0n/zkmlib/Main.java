@@ -91,6 +91,12 @@ public class Main {
 		obf.obfuscate();
 	}
 
+	/**
+	 * Get arg value from key
+	 * @param arg
+	 * @param args
+	 * @return
+	 */
 	public static String getArg(String arg, String[] args) {
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].equalsIgnoreCase(arg)) {
@@ -101,6 +107,12 @@ public class Main {
 		return null;
 	}
 
+	/**
+	 * Check if args contains the key
+	 * @param arg
+	 * @param args
+	 * @return
+	 */
 	public static boolean argsContains(String arg, String[] args) {
 		for (String s : args) {
 			if (arg.equalsIgnoreCase(s)) {

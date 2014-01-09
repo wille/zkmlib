@@ -8,17 +8,39 @@ import com.redpois0n.zkmlib.types.ObfuscateFlow;
 
 public class Configuration {
 
+	/**
+	 * Input file
+	 */
 	private File input;
+	
+	/**
+	 * Obfuscated output
+	 */
 	private File output;
 
+	/**
+	 * Main class
+	 */
 	private String mainClass;
 	
+	/**
+	 * Type of obfuscation flow
+	 */
 	private ObfuscateFlow obfuscateFlow;
 
+	/**
+	 * Type of exception obfuscation
+	 */
 	private ExceptionObfuscation exceptionObfuscation;
 
+	/**
+	 * Type of string encryption
+	 */
 	private EncryptStringLiterals encryptStringLiterals;
 
+	/**
+	 * Should collapse packages
+	 */
 	private boolean collapsePackages;
 	
 	public Configuration(File input, File output, String mainClass, ObfuscateFlow obfuscateFlow, ExceptionObfuscation exceptionObfuscation, EncryptStringLiterals encryptStringLiterals, boolean collapsePackages, String packageName) {
