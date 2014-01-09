@@ -24,7 +24,7 @@ public class Configuration {
 	public Configuration(File input, File output, String mainClass, ObfuscateFlow obfuscateFlow, ExceptionObfuscation exceptionObfuscation, EncryptStringLiterals encryptStringLiterals, boolean collapsePackages, String packageName) {
 		this.input = input;
 		this.output = output;
-		this.setMainClass(mainClass);
+		this.mainClass = mainClass;
 		this.obfuscateFlow = obfuscateFlow;
 		this.exceptionObfuscation = exceptionObfuscation;
 		this.encryptStringLiterals = encryptStringLiterals;
